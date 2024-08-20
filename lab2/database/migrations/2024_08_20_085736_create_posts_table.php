@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('postedBy');
             $table->timestamps(); //created at , updated at
         });
-    }
+    } 
 
     /**
      * Reverse the migrations.
