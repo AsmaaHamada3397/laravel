@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\post;
 class postController extends Controller
 {
-    private  $posts = [
+    private  $posts = [ 
         ["id" => 1, "Title" => "Learn PHP", "Posted By" => "Ahmed", "Created At" => "2018-04-10"],
         ["id" => 2, "Title" => "Solid Principles", "Posted By" => "Mohamed", "Created At" => "2018-04-12"], 
         ["id" => 3, "Title" => "Design Patterns", "Posted By" => "Ali", "Created At" => "2018-04-13"]
@@ -41,8 +41,20 @@ class postController extends Controller
 
     function create() {
 
-      return view("posts.create", ["posts"=> $this->posts]);   
+      return view("posts.create");   
     
     }
 
+    function store() {
+        $data = request()->all();
+        $post = new post();
+        $post->title = $data["title"];
+        $post->image = $data["image"];
+        $post->Description = $data["Description"];
+        $post->postedBy = $data["postedBy"];
+        $post->created_at = $data["created_at"];
+        $post->updated_at = $data["updated_at"];
+        $post->save();
+        return 'saved' . to_route("posts.posts");
+    }
 }
