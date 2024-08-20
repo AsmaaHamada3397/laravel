@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\post;
 class postController extends Controller
 {
     private  $posts = [
@@ -12,22 +12,19 @@ class postController extends Controller
         ["id" => 3, "Title" => "Design Patterns", "Posted By" => "Ali", "Created At" => "2018-04-13"]
     ];
     function index() {
-
-      $posts = $this->posts;
         
+      $posts = post::all();
         return view('posts.posts' , ['posts'=> $posts]);
+       
     }
 
     function show($id) {
-        $posts = $this->posts;
-
-        foreach ($posts as $post) {
-            if ($post["id"] == $id) {
-                return view("posts.show", ["posts"=> $post]);
-            }
-        }
-    
-       
+        
+        $post = post::find($id);
+        if($post == null){
+            abort(code:404);
+        } 
+        return view('posts.show' , ['posts'=> $post]);
     }
 
 

@@ -7,8 +7,9 @@
                 Post Info
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{$posts["Title"]}}</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <h5 class="card-title">{{$posts->title}}</h5>
+                <img src='{{asset("images/posts/". $posts->image)}}'>
+                <p class="card-text">{{$posts->Description}}</p>
             </div>
         </div>
     </div>
