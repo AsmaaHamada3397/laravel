@@ -30,7 +30,7 @@
                     <td>
                         <a href={{route("posts.show" , $post->id)}} class="btn btn-info">Show</a>
                         <a href={{ route("posts.edit", $post->id) }} class="btn btn-warning">Edit</a>
-                        <a href="delete.php?id={{$post['id']}}" class="btn btn-danger">Delete</a>
+                        <a href={{route("posts.destroy" , $post->id)}} class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
 

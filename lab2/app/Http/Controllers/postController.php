@@ -28,14 +28,16 @@ class postController extends Controller
     }
 
 
-    function edit($id) {
-        $posts = $this->posts;
+    
 
-        foreach ($posts as $post) {
-            if ($post["id"] == $id) {
-                return view("posts.edit", ["post" => $post]);
+    function edit($id) {
+            $post = Post::find($id);
+        
+            if (!$post) {
+                return redirect()->route('posts.index')->with('error', 'Post not found');
             }
-        }
+        
+            return view('posts.edit');
        
     }
 
@@ -57,4 +59,16 @@ class postController extends Controller
         $post->save();
         return 'saved' . to_route("posts.posts");
     }
+
+    function destroy($id){
+
+      $post = post::find($id);
+        if($post == null){
+            abort(code:404);
+        }
+        $post->delete();
+        return to_route("posts.index");
+    }
+
+  
 }

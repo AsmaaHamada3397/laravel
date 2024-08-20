@@ -4,7 +4,7 @@
     
     <div class="container mt-5">
         <h1>Creat a Post</h1>
-        <form>
+        <form method="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" name="title" id="title">
