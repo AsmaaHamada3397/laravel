@@ -25,9 +25,7 @@ class postController extends Controller
             if ($post["id"] == $id) {
                 return view("posts.show", ["posts"=> $post]);
             }
-        }
-    
-       
+        } 
     }
 
 
@@ -42,10 +40,10 @@ class postController extends Controller
        
     }
 
-    function create() {
-
-      return view("posts.create", ["posts"=> $this->posts]);   
-    
+    public function create(){
+        dd("hello");
+      return view("posts.create", ["posts"=> $this->posts]);       
     }
+    
 
 }
