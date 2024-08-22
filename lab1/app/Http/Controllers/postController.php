@@ -41,9 +41,11 @@ class postController extends Controller
     }
 
     public function create(){
-        dd("hello");
-      return view("posts.create", ["posts"=> $this->posts]);       
+        
+      return view("posts.create");       
     }
     
-
+    function store(){
+        return view("posts.store");
+    }
 }
