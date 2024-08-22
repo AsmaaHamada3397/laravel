@@ -31,13 +31,13 @@ class postController extends Controller
     
 
     function edit($id) {
-            $post = Post::find($id);
+            $post = Post::find($id); //
         
             if (!$post) {
-                return redirect()->route('posts.index')->with('error', 'Post not found');
+                return to_route('posts.index')->with('error', 'Post not found');//
             }
-        
-            return view('posts.edit');
+            $post->save();
+            return view('posts.edit',['post' => $post]);
        
     }
 
@@ -49,16 +49,21 @@ class postController extends Controller
 
     function store() {
         $data = request()->all();
-        $post = new post();
+        $image_path = '';
+        if(request()->hasFile("image")){
+        $image = request()->file("image");
+        $image_path=$image->store("posts", 'public');
+
+        $post = new Post();
         $post->title = $data["title"];
-        $post->image = $data["image"];
-        $post->Description = $data["Description"];
+        $post->image = $image_path;
+        $post->description = $data["description"];
         $post->postedBy = $data["postedBy"];
-        $post->created_at = $data["created_at"];
-        $post->updated_at = $data["updated_at"];
+       
         $post->save();
-        return 'saved' . to_route("posts.posts");
-    }
+        return to_route("posts.index");   
+     }
+}
 
     function destroy($id){
 
