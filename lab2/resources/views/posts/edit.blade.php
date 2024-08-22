@@ -11,8 +11,8 @@
             <input type="text" class="form-control w-50" name="title" id="title" value="{{$post->title}}">
         </div>
         <div class="input-group mb-3">
-            <input type="file" class="form-control" name="image" id="inputGroupFile02">
-            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+            <input type="file" class="form-control" name="image" id="inputGroupFile02" value="{{$post->image}}>
+            <label class="input-group-text" for="inputGroupFile02" >Upload</label>
             </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label><br>

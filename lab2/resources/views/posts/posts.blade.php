@@ -22,7 +22,7 @@
                 <tr>
                     <td>{{$post->id}}</td>
                     <td>{{$post->title}}</td>
-                    <td><img src='{{asset("images/posts/". $post->image)}}'></td>
+                    <td><img src='{{asset("images/posts/". $post->image)}}' width="50" height="50"></td>
                     <td>{{$post->Description}}</td>
                     <td>{{$post->postedBy}}</td>
                     <td>{{$post->created_At}}</td>
@@ -42,5 +42,5 @@
     <div class="container mt-5 text-center">
         <a href="{{ route('posts.create') }}" class="btn btn-success">Create Post</a>
     </div>
-
+    {{ $posts->links() }}
 @endsection

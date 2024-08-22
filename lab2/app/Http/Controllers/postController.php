@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 use App\Models\post;
+
 class postController extends Controller
 {
     private  $posts = [ 
@@ -14,8 +15,11 @@ class postController extends Controller
     function index() {
         
       $posts = post::all();
-        return view('posts.posts' , ['posts'=> $posts]);
-       
+        //return view('posts.posts' , ['posts'=> $posts]);
+
+        $posts = Post::paginate(2); // Paginate by 10 items per page
+        return view('posts.posts', compact('posts'));
+    
     }
 
     function show($id) {
