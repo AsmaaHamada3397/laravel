@@ -11,14 +11,14 @@ class postController extends Controller
 {
   
     function index() {
-        
+         
       $posts = post::all();
         //return view('posts.posts' , ['posts'=> $posts]);
 
         $posts = Post::paginate(2);
         return view('posts.posts', compact('posts'));
     
-    }
+    } 
 
     function show($id) {
         
