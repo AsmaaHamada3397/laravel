@@ -3,7 +3,7 @@
 @section("content")
 
 <div class="container mt-5">
-    <form method="post" action="{{ route('posts.edit', $post->id) }}" enctype="multipart/form-data">
+    <form method="get" action="">
         @csrf
       
         <div class="mb-3">

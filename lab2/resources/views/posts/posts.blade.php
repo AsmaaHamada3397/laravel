@@ -39,8 +39,10 @@
         </table>
     </div>
     
-    <div class="container mt-5 text-center">
+    <div class="container my-5 text-center">
         <a href="{{ route('posts.create') }}" class="btn btn-success">Create Post</a>
     </div>
-    {{ $posts->links() }}
+    <div class="d-flex justify-content-center mb-4">
+        {{ $posts->links() }}
+    </div>
 @endsection

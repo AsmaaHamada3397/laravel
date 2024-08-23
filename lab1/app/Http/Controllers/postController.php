@@ -44,7 +44,7 @@ class postController extends Controller
         
       return view("posts.create");       
     }
-    
+
     function store(){
         return view("posts.store");
     }
