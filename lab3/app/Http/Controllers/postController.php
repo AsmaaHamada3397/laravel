@@ -2,102 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\post;
-use Carbon\Carbon;
-
+use Illuminate\Http\Request;
 
 class postController extends Controller
 {
-
-    function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-
-        $posts = post::all();
-        //return view('posts.posts' , ['posts'=> $posts]);
-
         $posts = Post::paginate(3);
         return view('posts.posts', compact('posts'));
     }
 
-    function show($id)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-
-        $post = post::find($id);
-        if ($post == null) {
-            abort(code: 404);
-        }
-        return view('posts.show', ['posts' => $post]);
-    }
-
-
-
-
-
-
-    function create()
-    {
-
         return view("posts.create");
     }
 
-    function store()
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
         $data = request()->all();
         $image_path = '';
         if (request()->hasFile("image")) {
             $image = request()->file("image");
             $image_path = $image->store("posts", 'public');
-            $post = new Post();
-            $post->title = $data["title"];
-            $post->image = $image_path;
-            $post->description = $data["description"];
-            $post->postedBy = $data["postedBy"];
-
-            $post->save();
-            return to_route("posts.index");
         }
+        $data["image"] = $image_path;
+        $post = post::create($data);
+         
+        return to_route("post::post.index",$post);
     }
-    function edit($id)
+
+    /**
+     * Display the specified resource.
+     */
+     function show(post $post)
     {
-        $post = Post::find($id); //
-
-        if (!$post) {
-            return to_route('posts.index')->with('error', 'Post not found'); //
-        }
-        $post->save();
-        return view('posts.edit', ['post' => $post]);
+        return view("posts.show", compact("post"));
     }
 
-    // update
-    public function update($id) {
-        $post = Post::find($id);
-    
-        if (!$post) {
-            return redirect()->route('posts.index')->with('error', 'Post not found');
-        }
+    /**
+     * Show the form for editing the specified resource.
+     */
+     function edit(post $post)
+    {
+        return view("posts.edit", compact("post"));
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
+     function update(Request $request, post $post)
+    {
+        $data = request()->all();
+        $image_path = $post->image;
         if (request()->hasFile("image")) {
-            $data = request()->all();
             $image = request()->file("image");
             $image_path = $image->store("posts", 'public');
-            $post->title = $data["title"];
-            $post->image = $image_path;
-            $post->description = $data["description"];
-            $post->postedBy = $data["postedBy"];
-            
-            $post->update();
-            return redirect()->route('posts.index')->with('success', 'Post updated successfully');
-    }
-    function destroy($id)
-    {
-
-        $post = post::find($id);
-        if ($post == null) {
-            abort(code: 404);
         }
-
-        $post->delete();
-        return to_route("posts.index");
+        $data["image"] = $image_path;
+        $post ->update($data);
+         
+        return to_route("post.show",$post);
     }
-}}
+
+    /**
+     * Remove the specified resource from storage.
+     */
+     function destroy(post $post)
+    {
+        $post->delete();
+        return to_route('students.index');
+    }
+}
