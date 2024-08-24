@@ -3,9 +3,9 @@
 @section("content")
 
 <div class="container mt-5">
-    <form method="get" action="">
+    <form method="post" action="{{route('posts.update', ['id' => $post->id])}}" enctype="multipart/form-data">
         @csrf
-      
+        @method('PUT')
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control w-50" name="title" id="title" value="{{$post->title}}">
@@ -19,10 +19,10 @@
             <textarea name="description" id="description" cols="70" value="{{$post->Description}}"></textarea>
         </div>
         <div class="mb-3 ">
-            <label for="creator">Post Creator</label><br>
-            <input type="text" class=" form-control w-50" id="creator" name="creator" value="{{$post->postedBy}}">
+            <label for="postedBy">Post Creator</label><br>
+            <input type="text" class=" form-control w-50" id="postedBy" name="postedBy" value="{{$post->postedBy}}">
         </div>
-        <input type="submit" class="btn btn-primary" value="Edit">
+        <button type="submit" class="btn btn-primary my-3">Edit</button>
     </form>
 </div>
 

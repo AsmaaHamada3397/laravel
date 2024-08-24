@@ -25,7 +25,7 @@
                     <td><img src='{{asset("images/posts/". $post->image)}}' width="50" height="50"></td>
                     <td>{{$post->Description}}</td>
                     <td>{{$post->postedBy}}</td>
-                    <td>{{$post->created_At}}</td>
+                    <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                     <td>
                         <a href={{route("posts.show" , $post->id)}} class="btn btn-info">Show</a>
