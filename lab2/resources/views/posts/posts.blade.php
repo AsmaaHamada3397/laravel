@@ -25,8 +25,8 @@
                     <td><img src='{{asset("images/posts/". $post->image)}}' width="50" height="50"></td>
                     <td>{{$post->Description}}</td>
                     <td>{{$post->postedBy}}</td>
-                    <td>{{$post->created_at}}</td>
-                    <td>{{$post->updated_at}}</td>
+                    <td>{{ $post->created_at->format('d M Y , H:i') }}</td>
+                    <td>{{$post->updated_at->format('d M Y , H:i')}}</td>
                     <td>
                         <a href={{route("posts.show" , $post->id)}} class="btn btn-info">Show</a>
                         <a href={{ route("posts.edit", $post->id) }} class="btn btn-warning">Edit</a>

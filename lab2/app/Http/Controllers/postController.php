@@ -16,7 +16,7 @@ class postController extends Controller
         $posts = post::all();
         //return view('posts.posts' , ['posts'=> $posts]);
 
-        $posts = Post::paginate(2);
+        $posts = Post::paginate(3);
         return view('posts.posts', compact('posts'));
     }
 
@@ -96,6 +96,7 @@ class postController extends Controller
         if ($post == null) {
             abort(code: 404);
         }
+
         $post->delete();
         return to_route("posts.index");
     }
