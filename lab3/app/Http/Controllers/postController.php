@@ -1,98 +1,102 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Pagination\Paginator;
+
 use Illuminate\Http\Request;
 use App\Models\post;
+use Carbon\Carbon;
 
 
-class PostController extends Controller
+class postController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    function index()
     {
-        $posts = Post::all();
+
+        $posts = post::all();
         //return view('posts.posts' , ['posts'=> $posts]);
 
-        $posts = Post::paginate(2);
+        $posts = Post::paginate(3);
         return view('posts.posts', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    function show($id)
     {
-        return view("posts.create");   
 
+        $post = post::find($id);
+        if ($post == null) {
+            abort(code: 404);
+        }
+        return view('posts.show', ['posts' => $post]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+
+
+
+
+    function create()
+    {
+
+        return view("posts.create");
+    }
+
+    function store()
     {
         $data = request()->all();
         $image_path = '';
-        if(request()->hasFile("image")){
-        $image = request()->file("image");
-        $image_path=$image->store("posts", 'public');
-        $post = new Post();
-        $post->title = $data["title"];
-        $post->image = $image_path;
-        $post->description = $data["description"];
-        $post->postedBy = $data["postedBy"];
-        $post->created_at = $data["created_at"];
-       
-        $post->save();
-        return to_route("posts.index"); 
-    }
+        if (request()->hasFile("image")) {
+            $image = request()->file("image");
+            $image_path = $image->store("posts", 'public');
+            $post = new Post();
+            $post->title = $data["title"];
+            $post->image = $image_path;
+            $post->description = $data["description"];
+            $post->postedBy = $data["postedBy"];
 
-    /**
-     * Display the specified resource.
-     */
-    function show($id)
-    {
-        $post = post::find($id);
-        if($post == null){
-            abort(code:404);
-        } 
-        return view('posts.show' , ['posts'=> $post]);
+            $post->save();
+            return to_route("posts.index");
+        }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     function edit($id)
     {
         $post = Post::find($id); //
-        
+
         if (!$post) {
-            return to_route('posts.index')->with('error', 'Post not found');//
+            return to_route('posts.index')->with('error', 'Post not found'); //
         }
         $post->save();
-        return view('posts.edit',['post' => $post]);
+        return view('posts.edit', ['post' => $post]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    function update(Request $request, string $id)
-    {
-       
-    }
+    // update
+    public function update($id) {
+        $post = Post::find($id);
+    
+        if (!$post) {
+            return redirect()->route('posts.index')->with('error', 'Post not found');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+        if (request()->hasFile("image")) {
+            $data = request()->all();
+            $image = request()->file("image");
+            $image_path = $image->store("posts", 'public');
+            $post->title = $data["title"];
+            $post->image = $image_path;
+            $post->description = $data["description"];
+            $post->postedBy = $data["postedBy"];
+            
+            $post->update();
+            return redirect()->route('posts.index')->with('success', 'Post updated successfully');
+    }
     function destroy($id)
     {
+
         $post = post::find($id);
-        if($post == null){
-            abort(code:404);
+        if ($post == null) {
+            abort(code: 404);
         }
+
         $post->delete();
         return to_route("posts.index");
     }
