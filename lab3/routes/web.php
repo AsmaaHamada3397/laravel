@@ -10,4 +10,4 @@ Route::get('/',
 );
 
 
-Route::resource("posts", postController::class);
+Route::resource("posts", PostController::class);

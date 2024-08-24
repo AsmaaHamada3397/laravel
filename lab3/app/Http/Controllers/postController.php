@@ -29,17 +29,25 @@ class postController extends Controller
      */
     public function store(Request $request)
     {
-        $data = request()->all();
-        $image_path = '';
-        if (request()->hasFile("image")) {
-            $image = request()->file("image");
-            $image_path = $image->store("posts", 'public');
-        }
-        $data["image"] = $image_path;
-        $post = post::create($data);
+        $request->validate([
+            "title"=> "required|max:300|string",
+            "image"=> "required|mimes:png,jpg,jpeg|max:2048",
+            "description"=> "required|max:3072",
+            "postedBy"=> "required|string|max:2048",
+        ]);
+
+
+    //     $data = request()->all();
+    //     $image_path = '';
+    //     if (request()->hasFile("image")) {
+    //         $image = request()->file("image");
+    //         $image_path = $image->store("posts", 'public');
+    //     }
+    //     $data["image"] = $image_path;
+    //     $post = post::create($data);
          
-        return to_route("post::post.index",$post);
-    }
+    //     return to_route("post::post.index",$post);
+    // }
 
     /**
      * Display the specified resource.
@@ -62,16 +70,24 @@ class postController extends Controller
      */
      function update(Request $request, post $post)
     {
-        $data = request()->all();
-        $image_path = $post->image;
-        if (request()->hasFile("image")) {
-            $image = request()->file("image");
-            $image_path = $image->store("posts", 'public');
-        }
-        $data["image"] = $image_path;
-        $post ->update($data);
+        $request->validate([
+            "title"=> "required|max:300|string",
+            "image"=> "required|mimes:png,jpg,jpeg|max:2048",
+            "description"=> "required|max:3072",
+            "postedBy"=> "required|string|max:2048",
+        ]);
+
+
+        // $data = request()->all();
+        // $image_path = $post->image;
+        // if (request()->hasFile("image")) {
+        //     $image = request()->file("image");
+        //     $image_path = $image->store("posts", 'public');
+        // }
+        // $data["image"] = $image_path;
+        // $post ->update($data);
          
-        return to_route("post.show",$post);
+        return to_route("post.show",$post)->with("updated successfully");
     }
 
     /**
@@ -82,4 +98,4 @@ class postController extends Controller
         $post->delete();
         return to_route('students.index');
     }
-}
+}}
