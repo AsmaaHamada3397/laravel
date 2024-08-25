@@ -22,7 +22,8 @@
                 <tr>
                     <td>{{$post->id}}</td>
                     <td>{{$post->title}}</td>
-                    <td><img src='{{asset("images/posts/". $post->image)}}' width="50" height="50"></td>
+                    <td><img src="{{ asset('storage/posts/') }}" alt="Image">
+                    </td>
                     <td>{{$post->Description}}</td>
                     <td>{{$post->postedBy}}</td>
                     <td>{{$post->created_at->format('d M Y , h:i A')}}</td> <!--H for 24 hours and h for 12hour-->

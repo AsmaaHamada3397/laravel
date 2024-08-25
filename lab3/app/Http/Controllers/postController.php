@@ -30,72 +30,81 @@ class postController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "title"=> "required|max:300|string",
-            "image"=> "required|mimes:png,jpg,jpeg|max:2048",
-            "description"=> "required|max:3072",
-            "postedBy"=> "required|string|max:2048",
+            "title" => "required|max:300|string",
+            "image" => "required|mimes:png,jpg,jpeg|max:2048",
+            "description" => "required|max:3072",
+            "postedBy" => "required|string|max:2048",
         ]);
+        if ($request->hasFile("image")) {
 
+            $imageName = time() . '.' . $request->image->getClientOriginalExtension(); //to give image name by date and to type its extension(.jpg)
+            $request->image->move(public_path("/uploads/images/"), $imageName);
 
-    //     $data = request()->all();
-    //     $image_path = '';
-    //     if (request()->hasFile("image")) {
-    //         $image = request()->file("image");
-    //         $image_path = $image->store("posts", 'public');
-    //     }
-    //     $data["image"] = $image_path;
-    //     $post = post::create($data);
-         
-    //     return to_route("post::post.index",$post);
-    // }
+            $data["image"] = $imageName;
+        }
+        $post = Post::create($data);
+        return back()->with("success", "your post has been created");
 
-    /**
-     * Display the specified resource.
-     */
-     function show(post $post)
-    {
-        return view("posts.show", compact("post"));
-    }
+        //     $data = request()->all();
+        //     $image_path = '';
+        //     if (request()->hasFile("image")) {
+        //         $image = request()->file("image");
+        //         $image_path = $image->store("posts", 'public');
+        //     }
+        //     $data["image"] = $image_path;
+        //     $post = post::create($data);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-     function edit(post $post)
-    {
-        return view("posts.edit", compact("post"));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-     function update(Request $request, post $post)
-    {
-        $request->validate([
-            "title"=> "required|max:300|string",
-            "image"=> "required|mimes:png,jpg,jpeg|max:2048",
-            "description"=> "required|max:3072",
-            "postedBy"=> "required|string|max:2048",
-        ]);
-
-
-        // $data = request()->all();
-        // $image_path = $post->image;
-        // if (request()->hasFile("image")) {
-        //     $image = request()->file("image");
-        //     $image_path = $image->store("posts", 'public');
+        //     return to_route("post::post.index",$post);
         // }
-        // $data["image"] = $image_path;
-        // $post ->update($data);
-         
-        return to_route("post.show",$post)->with("updated successfully");
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-     function destroy(post $post)
-    {
-        $post->delete();
-        return to_route('students.index');
+        /**
+         * Display the specified resource.
+         */
+        function show(post $post)
+        {
+            return view("posts.show", compact("post"));
+        }
+
+        /**
+         * Show the form for editing the specified resource.
+         */
+        function edit(post $post)
+        {
+            return view("posts.edit", compact("post"));
+        }
+
+        /**
+         * Update the specified resource in storage.
+         */
+        function update(Request $request, post $post)
+        {
+            $request->validate([
+                "title" => "required|max:300|string",
+                "image" => "required|mimes:png,jpg,jpeg|max:2048",
+                "description" => "required|max:3072",
+                "postedBy" => "required|string|max:2048",
+            ]);
+
+
+            // $data = request()->all();
+            // $image_path = $post->image;
+            // if (request()->hasFile("image")) {
+            //     $image = request()->file("image");
+            //     $image_path = $image->store("posts", 'public');
+            // }
+            // $data["image"] = $image_path;
+            // $post ->update($data);
+
+            return to_route("post.show", $post)->with("updated successfully");
+        }
+
+        /**
+         * Remove the specified resource from storage.
+         */
+        function destroy(post $post)
+        {
+            $post->delete();
+            return to_route('students.index');
+        }
     }
-}}
+}

@@ -47,7 +47,7 @@ class postController extends Controller
         $image_path = '';
         if (request()->hasFile("image")) {
             $image = request()->file("image");
-            $image_path = $image->store("posts", 'public');
+            $image_path = $image->store('public');
             $post = new Post();
             $post->title = $data["title"];
             $post->image = $image_path;
