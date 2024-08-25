@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Post;
-use App\Models\post as ModelsPost;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -22,7 +21,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $users = User::all();
+        return view('posts.create', compact('users'));
     }
 
     /**

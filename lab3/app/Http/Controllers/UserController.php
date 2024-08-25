@@ -11,7 +11,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users = User::paginate(3);
+        return view("users.users", compact("users"));
     }
 
     /**
@@ -19,23 +20,43 @@ class UserController extends Controller
      */
     public function create()
     {
+        
         return view("users.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+   // app/Http/Controllers/UserController.php
+
+
+   public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required',
-            'email'=>'required|unique',
-            'password'=>'required'
+        // Validate the request data
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'image' => 'nullable|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $user = User::create($request->all());
-        return $user;
+        
+        // Handle the image upload if it exists
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $data['image'] = $image->storeAs('users', $filename, 'public');
+        }
+
+        // Create the user
+        User::create($data);
+
+        return to_route("users.index")->with('success', 'User registered successfully!');
     }
+
+
+
+    
 
     /**
      * Display the specified resource.
