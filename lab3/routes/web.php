@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\postController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 
@@ -10,4 +10,4 @@ Route::get('/',
 );
 
 
-Route::resource("posts", PostController::class);
+Route::resource('posts', PostController::class);

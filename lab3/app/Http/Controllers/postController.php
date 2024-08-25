@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\post;
+use App\Models\Post;
+use App\Models\post as ModelsPost;
 use Illuminate\Http\Request;
 
-class postController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class postController extends Controller
      */
     public function create()
     {
-        return view("posts.create");
+        return view('posts.create');
     }
 
     /**
@@ -29,82 +30,50 @@ class postController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "title" => "required|max:300|string",
-            "image" => "required|mimes:png,jpg,jpeg|max:2048",
-            "description" => "required|max:3072",
-            "postedBy" => "required|string|max:2048",
+        $data=$request->validate([
+            'title'=> 'required',
+            'image'=> 'required|mimes:jpg,png,jpeg|max:2048',
+            'description'=> 'required|max:3074',
+            'postedBy'=>'required'    
         ]);
-        if ($request->hasFile("image")) {
-
-            $imageName = time() . '.' . $request->image->getClientOriginalExtension(); //to give image name by date and to type its extension(.jpg)
-            $request->image->move(public_path("/uploads/images/"), $imageName);
-
-            $data["image"] = $imageName;
+        if($request->has('image')){
+            $imageName= time() .'.'. $request->image->getClientOriginalExtension();
+            $request->image->move(public_path('uploads/images/'),$imageName);
         }
-        $post = Post::create($data);
-        return back()->with("success", "your post has been created");
+        $post= Post::create($data);
+        return to_route("posts.index",$post);
+    }
 
-        //     $data = request()->all();
-        //     $image_path = '';
-        //     if (request()->hasFile("image")) {
-        //         $image = request()->file("image");
-        //         $image_path = $image->store("posts", 'public');
-        //     }
-        //     $data["image"] = $image_path;
-        //     $post = post::create($data);
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post)
+    {
+        return view("posts.show", compact("post"));
+    }
 
-        //     return to_route("post::post.index",$post);
-        // }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
+        return view("posts.edit", compact("post"));
+    }
 
-        /**
-         * Display the specified resource.
-         */
-        function show(post $post)
-        {
-            return view("posts.show", compact("post"));
-        }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Post $post)
+    {
+        //
+    }
 
-        /**
-         * Show the form for editing the specified resource.
-         */
-        function edit(post $post)
-        {
-            return view("posts.edit", compact("post"));
-        }
-
-        /**
-         * Update the specified resource in storage.
-         */
-        function update(Request $request, post $post)
-        {
-            $request->validate([
-                "title" => "required|max:300|string",
-                "image" => "required|mimes:png,jpg,jpeg|max:2048",
-                "description" => "required|max:3072",
-                "postedBy" => "required|string|max:2048",
-            ]);
-
-
-            // $data = request()->all();
-            // $image_path = $post->image;
-            // if (request()->hasFile("image")) {
-            //     $image = request()->file("image");
-            //     $image_path = $image->store("posts", 'public');
-            // }
-            // $data["image"] = $image_path;
-            // $post ->update($data);
-
-            return to_route("post.show", $post)->with("updated successfully");
-        }
-
-        /**
-         * Remove the specified resource from storage.
-         */
-        function destroy(post $post)
-        {
-            $post->delete();
-            return to_route('students.index');
-        }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return to_route("posts.index")->with("success","post deleted successfully");
     }
 }
