@@ -8,14 +8,14 @@
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="title" id="title" required >
+            <input type="text" class="form-control" name="title" id="title" value="{{old("title")}}" >
             @error("title")
             <span class="text-danger">{{$message}}</span>
             @enderror
         </div>
 
         <div class="input-group mb-3">
-            <input type="file" class="form-control" name="image" id="inputGroupFile02" required >
+            <input type="file" class="form-control" name="image" id="inputGroupFile02" value="{{old("image")}}">
             <label class="input-group-text" for="inputGroupFile02">Upload</label>
             @error("image")
             <span class="text-danger">{{$message}}</span>
@@ -24,7 +24,7 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea type="description" class="form-control" name="description" required id="description"></textarea>
+            <textarea type="description" class="form-control" name="description" id="description" value="{{old("description")}}"></textarea>
             @error("description")
             <span class="text-danger">{{$message}}</span>
             @enderror
@@ -32,7 +32,7 @@
 
         <div class="mb-3">
             <label for="postedBy">Post Creator</label>
-            <input type="text" class="form-control" id="postedBy" name="postedBy" required >
+            <input type="text" class="form-control" id="postedBy" name="postedBy" value="{{old("postedBy")}}">
             @error("postedBy")
             <span class="text-danger">{{$message}}</span>
             @enderror

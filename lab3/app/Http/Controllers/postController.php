@@ -30,18 +30,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->validate([
-            'title'=> 'required',
-            'image'=> 'required|mimes:jpg,png,jpeg|max:2048',
-            'description'=> 'required|max:3074',
-            'postedBy'=>'required'    
+        $data = $request->validate([
+            'title' => 'required',
+            'image' => 'required|mimes:jpg,png,jpeg|max:2048',
+            'description' => 'required|max:3074',
+            'postedBy' => 'required'    
         ]);
-        if($request->has('image')){
-            $imageName= time() .'.'. $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads/images/'),$imageName);
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            
+            // Generate a unique filename with the current timestamp
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            
+            // Store the image in the 'posts' directory within the 'public' disk
+            $data['image'] = $image->storeAs('posts', $filename, 'public');
         }
-        $post= Post::create($data);
-        return to_route("posts.index",$post);
+    
+        $post = Post::create($data);
+        return to_route("posts.index", $post);
     }
 
     /**
@@ -65,7 +72,29 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'description' => 'required|max:3074',
+            'postedBy' => 'required'    
+        ]);
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            
+            // Generate a unique filename with the current timestamp
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            
+            // Store the image and update $data['image'] with the new path
+            $data['image'] = $image->storeAs('posts', $filename, 'public');
+        } else {
+            // Retain the existing image if no new image is uploaded
+            $data['image'] = $post->image;
+        }
+    
+        $post->update($data);
+    
+        return to_route("posts.index", $post);
     }
 
     /**
