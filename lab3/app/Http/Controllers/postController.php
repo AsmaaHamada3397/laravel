@@ -75,10 +75,11 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:3|unique',
             'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'description' => 'required|max:3074',
-            'postedBy' => 'required'    
+            'description' => 'required|max:3074|min:10',
+            'postedBy' => 'required',
+            "user_id"=> "required"  
         ]);
     
         if ($request->hasFile('image')) {

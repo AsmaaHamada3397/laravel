@@ -45,6 +45,10 @@
             @foreach($users as $user)
             <option value="{{$user->id}}">{{$user->name}}</option>
             @endforeach
+
+            @error("user_id")
+            <span class="text-danger">{{$message}}</span>
+            @enderror
         </select>
         <div class="container text-center">
             <button type="submit" class="btn btn-success rounded-3 mt-3 ">Create</button>
