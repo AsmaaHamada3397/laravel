@@ -30,7 +30,7 @@
             @enderror
         </div>
 
-        <div class="mb-3">
+        <div class="my-3">
             <label for="postedBy">Post Creator</label>
             <input type="text" class="form-control" id="postedBy" name="postedBy" value="{{old("postedBy")}}">
             @error("postedBy")
@@ -38,22 +38,18 @@
             @enderror
         </div>
 
-        <div class="container">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark" name="userId">
-                    <option selected disabled value="null">see users</option>
-                    @foreach($users as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
 
-                    @endforeach
-                </ul>
-            </div>
+        <label for="title" class="form-label">Select User : </label>
+        <select name="user_id" id="user_id">
+            <option selected disabled value="null">see users</option>
+            @foreach($users as $user)
+            <option value="{{$user->id}}">{{$user->name}}</option>
+            @endforeach
+        </select>
+        <div class="container text-center">
+            <button type="submit" class="btn btn-success rounded-3 mt-3 ">Create</button>
+
         </div>
-
-        <button type="submit" class="btn btn-success rounded-3 mt-3">Create</button>
     </form>
 </div>
 

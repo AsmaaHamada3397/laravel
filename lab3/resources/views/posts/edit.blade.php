@@ -34,6 +34,19 @@
             <span class="text-danger">{{$message}}</span>
             @enderror
         </div>
+
+        <label for="title" class="form-label">Select User : </label>
+        <select name="user_id" id="user_id">
+            <option selected disabled value="null">see users</option>
+            @foreach($users as $user)
+            @if ($user->id === $post->user_id)
+             <option selected value="{{$user->id}}">{{$user->name}}</option>
+             @else
+             <option value="{{$user->id}}">{{$user->name}}</option>
+            @endif
+           
+            @endforeach
+        </select>
         <button type="submit" class="btn btn-primary my-3">Update</button>
     </form>
 </div>

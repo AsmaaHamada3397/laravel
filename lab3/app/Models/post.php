@@ -12,6 +12,7 @@ class post extends Model
         "title",
         "image",
         "description",
-        "postedBy"
+        "postedBy",
+        "user_id"
     ];
 }

@@ -34,7 +34,8 @@ class PostController extends Controller
             'title' => 'required',
             'image' => 'required|mimes:jpg,png,jpeg|max:2048',
             'description' => 'required|max:3074',
-            'postedBy' => 'required'    
+            'postedBy' => 'required',
+            'user_id' => 'required|exists:users,id' 
         ]);
     
         if ($request->hasFile('image')) {
@@ -64,7 +65,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view("posts.edit", compact("post"));
+        $users = User::all();
+        return view("posts.edit", compact("post","users"));
     }
 
     /**
