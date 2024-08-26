@@ -35,7 +35,7 @@
             @enderror
         </div>
 
-        <label for="title" class="form-label">Select User : </label>
+        <label for="title" class="form-label my-3">Select User : </label>
         <select name="user_id" id="user_id">
             <option selected disabled value="null">see users</option>
             @foreach($users as $user)
@@ -47,7 +47,7 @@
            
             @endforeach
         </select>
-        <button type="submit" class="btn btn-primary my-3">Update</button>
+        <button type="submit" class="btn btn-primary my-3 d-block">Update</button>
     </form>
 </div>
 
