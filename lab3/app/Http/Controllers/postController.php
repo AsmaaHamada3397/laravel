@@ -31,11 +31,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required',
-            'image' => 'required|mimes:jpg,png,jpeg|max:2048',
-            'description' => 'required|max:3074',
+            'title' => 'required|min:3|unique:posts,title,',
+            'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'description' => 'required|max:3074|min:10',
             'postedBy' => 'required',
-            'user_id' => 'required|exists:users,id' 
+            'user_id' => 'required',
         ]);
     
         if ($request->hasFile('image')) {
@@ -73,33 +73,35 @@ class PostController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Post $post)
-    {
-        $data = $request->validate([
-            'title' => 'required|min:3|unique',
-            'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'description' => 'required|max:3074|min:10',
-            'postedBy' => 'required',
-            "user_id"=> "required"  
-        ]);
-    
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            
-            // Generate a unique filename with the current timestamp
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            
-            // Store the image and update $data['image'] with the new path
-            $data['image'] = $image->storeAs('posts', $filename, 'public');
-        } else {
-            // Retain the existing image if no new image is uploaded
-            $data['image'] = $post->image;
-        }
-    
-        $post->update($data);
-    
-        return to_route("posts.index", $post);
+{
+    $data = $request->validate([
+        'title' => 'required|min:3|unique:posts,title,' . $post->id,
+        'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+        'description' => 'required|max:3074|min:10',
+        'postedBy' => 'required',
+        'user_id' => 'required',
+    ]);
+
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        
+        // Generate a unique filename with the current timestamp
+        $filename = time() . '.' . $image->getClientOriginalExtension();
+        
+        // Store the image and update $data['image'] with the new path
+        $data['image'] = $image->storeAs('posts', $filename, 'public');
+    } else {
+        // Retain the existing image if no new image is uploaded
+        $data['image'] = $post->image;
     }
 
+    $post->update($data);
+
+    return to_route("posts.index", $post);
+}
+
+
+   
     /**
      * Remove the specified resource from storage.
      */

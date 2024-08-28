@@ -12,8 +12,8 @@
                 <p class="card-text">{{$post->Description}}</p>
                 <p class="card-text">Name:{{$post->user ? $post->$user->name : "No creator"}}</p>
                 <p class="card-text">Email:{{$post->user ? $post->$user->email : "No Email"}}</p>
-                <p class="card-text">Created at:{{$post->created_at->format('d M Y , h:i A')}}</p>
-                <p class="card-text">Updated at:{{$post->updated_at->format('d M Y , h:i A')}}</p>
+                <p class="card-text">Created at:{{ $post->human_readable_date }}</p>
+                <p class="card-text">Updated at:{{ $post->human_readable_date }}</p>
 
             </div>
         </div>
