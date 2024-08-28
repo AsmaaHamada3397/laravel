@@ -110,4 +110,12 @@ class PostController extends Controller
         $post->delete();
         return to_route("posts.index")->with("success","post deleted successfully");
     }
+
+    public function restorePost($id)
+{
+    $post = Post::withTrashed()->find($id);
+    $post->restore(); 
+    
+    return to_route("posts.index");
+}
 }

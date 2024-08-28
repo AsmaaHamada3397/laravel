@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class post extends Model
 {
@@ -25,4 +25,5 @@ class post extends Model
         return Carbon::parse($this->created_at)->format('F j, Y, g:i a');
     }
 
+    use SoftDeletes;
 }
