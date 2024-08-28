@@ -15,3 +15,7 @@ Route::get('/',
 Route::resource('posts', PostController::class);
 Route::resource('users', UserController::class);
 Route::post('/posts/restore/{id}', [PostController::class, 'restore'])->name('posts.restore');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
