@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\CheckPostKeyword;
 
 class StorePostRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return true ;
     }
 
     /**
@@ -22,7 +23,7 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|min:3|unique:posts',
+            'title' => ['required' , 'min:3', 'unique:posts', new CheckPostKeyword()],
             'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
             'description' => 'required|max:3074|min:10',
             'postedBy' => 'required',
