@@ -9,6 +9,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>slug</th>
                 <th>Image</th>
                 <th>Description</th>
                 <th>Posted By</th>
@@ -23,6 +24,7 @@
             <tr>
                 <td>{{$post->id}}</td>
                 <td>{{$post->title}}</td>
+                <td>{{$post->slug}}</td>
                 <td><img src='{{asset("images/posts/". $post->image)}}' width="50" height="50"></td>
                 <td>{{$post->Description}}</td>
                 <td>{{$post->postedBy}}</td>

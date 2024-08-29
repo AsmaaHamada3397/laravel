@@ -36,11 +36,11 @@ class post extends Model
      * @return array
      */
     public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
+{
+    return [
+        'slug' => [
+            'source' => 'title'
+        ],
+    ];
+}
 }
