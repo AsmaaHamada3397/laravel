@@ -13,6 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if(Auth::user()->image)
+                    <img src="{{asset("upload/images/" . Auth::user()->image)}}">
+                    @endif
 
                     {{ __('You are logged in!') }}
                 </div>
