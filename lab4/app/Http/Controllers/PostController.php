@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest; 
 
 class PostController extends Controller
 {
@@ -67,15 +68,9 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
 {
-    $data = $request->validate([
-        'title' => 'required|min:3|unique:posts,title,' . $post->id,
-        'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-        'description' => 'required|max:3074|min:10',
-        'postedBy' => 'required',
-        'user_id' => 'required',
-    ]);
+    $data = $request->validated();
 
     if ($request->hasFile('image')) {
         $image = $request->file('image');

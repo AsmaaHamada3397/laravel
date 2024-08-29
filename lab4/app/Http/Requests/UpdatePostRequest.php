@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,11 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required' , 'min:3', Rule::unique("posts")->ignore($this->post)],
+            'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'description' => 'required|max:3074|min:10',
+            'postedBy' => 'required',
+            'user_id' => 'required',
         ];
     }
 }
