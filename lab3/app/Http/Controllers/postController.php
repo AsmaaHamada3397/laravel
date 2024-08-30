@@ -75,7 +75,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
 {
     $data = $request->validate([
-        'title' => 'required|min:3|unique:posts,title,' . $post->id,
+        'title' => 'required|min:3|unique:posts,title' ,
         'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
         'description' => 'required|max:3074|min:10',
         'postedBy' => 'required',
@@ -113,7 +113,8 @@ class PostController extends Controller
 
     public function restore($id)
 {
-    $post = Post::withTrashed()->find($id);
+    
+    $post = Post::find($id);
     $post->restore(); 
     
     return to_route("posts.index");

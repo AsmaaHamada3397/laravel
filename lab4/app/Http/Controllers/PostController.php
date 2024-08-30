@@ -6,14 +6,20 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest; 
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
+    function __construct(){
+        $this->middleware("auth")->only("create");
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $posts = Post::withTrashed()->paginate(10);
         $posts = Post::paginate(10);
         return view('posts.posts', compact('posts'));
     }
@@ -33,6 +39,14 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+        $user = Auth::user(); //current user
+       
+
+        if( $user->posts->count() == 3)
+    {
+        return to_route('posts.index')->with('error','you have reached the maximum number of posts');
+    }
+
     
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -45,6 +59,7 @@ class PostController extends Controller
         }
     
         $post = Post::create($data);
+        $post->post_creator = Auth::id();
         return to_route("posts.index", $post);
     }
 
@@ -103,7 +118,7 @@ class PostController extends Controller
 
     public function restore($id)
 {
-    $post = Post::withTrashed()->find($id);
+    $post = Post::withTrashed()->findOrFail($id);
     $post->restore(); 
     
     return to_route("posts.index");

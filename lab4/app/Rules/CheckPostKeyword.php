@@ -14,7 +14,7 @@ class CheckPostKeyword implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if(strtolower($value==="post")){
+        if(stripos(strtolower($value) , "post")){
             $fail("Title shouldn't have 'post' keyword"); 
         }
     }

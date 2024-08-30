@@ -49,7 +49,7 @@
 <div class="container text-center">
     <a href="{{ route('posts.create') }}" class="btn btn-success">Create Post</a>
 
-    <form action="{{ route('posts.restore', $post->id) }}" method="POST" style="display:inline;">
+    <form action="{{ route('posts.restore', ["id"=>20]) }}" method="POST" style="display:inline;">
         @csrf
         <button type="submit" class="btn btn-primary">Restore</button>
     </form>
@@ -58,6 +58,6 @@
 
 
 <div class="d-flex justify-content-center my-4">
-    {{ $posts->links() }}
+    {{$posts->links()}}
 </div>
 @endsection
